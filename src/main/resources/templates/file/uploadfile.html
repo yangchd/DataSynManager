@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+    <title>上传页面</title>
+
+    <link href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+    <link href="../../static/css/bootstrap-switch.css" th:href="@{/css/bootstrap-switch.css}" rel="stylesheet" type="text/css"/>
+    <link href="../../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script src="../../static/js/jquery.js" th:src="@{/js/jquery.js}" type="text/javascript"></script>
+    <script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
+    <script src="../../static/js/bootstrap-switch.js" th:src="@{/js/bootstrap-switch.js}" type="text/javascript"></script>
+    <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}" type="text/javascript"></script>
+    <script src="../../static/js/tool.js" th:src="@{/js/tool.js}" type="text/javascript"></script>
+
+    <link href="../../static/css/fileinput.min.css" th:href="@{/css/fileinput.min.css}" rel="stylesheet" type="text/css" />
+    <script src="../../static/js/fileinput.min.js" th:src="@{/js/fileinput.min.js}" type="text/javascript"></script>
+    <script src="../../static/js/zh.js" th:src="@{/js/zh.js}" type="text/javascript"></script>
+
+    <style>
+        body{
+            background: #f9f7f6;
+            color: #404d5b;
+            font-weight: 500;
+            font-size: 1.05em;
+            font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
+        }
+        .htmleaf-container{
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .htmleaf-header{
+            padding: 1em 190px 1em;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+        .htmleaf-header h1 {
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 1;
+            margin-bottom: 0;
+            font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
+        }
+    </style>
+
+</head>
+<body>
+<div class="htmleaf-container">
+    <header class="htmleaf-header">
+        <h1>文件上传</h1>
+    </header>
+    <div class="container kv-main">
+        <hr>
+        <form action="${pageContext.request.contextPath}+/file/upload" id="uploadfile" method="post" name="uploadfile"
+              enctype="multipart/form-data" >
+            <input id="file" name="file" class="file" type="file"  multiple>
+            <div id="submitbtn" style="color: #aaa;font-size: 1.6em;display: block">
+                <input type="submit" id="filesubmit" value="备用上传按钮">
+                <br>
+                <br>
+                有可能出现一个下载文件，这是返回的结果！！
+            </div>
+        </form>
+        <iframe id="id_frame" name="id_frame" style="display: none"></iframe>
+        <hr>
+    </div>
+    <div class="file-drop-zone-title" style="text-align: center">
+        注意：最好使用谷歌或者火狐浏览器打开！
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+    $("#file").fileinput({
+        language: 'zh',
+        uploadUrl: 'http://localhost:8090/file/upload', // you must set a valid URL here else you will get an error
+        allowedFileExtensions : ['api', 'apk','exe','docx'],
+        showUpload: true, //是否显示上传按钮
+        showCaption:true,//是否显示标题
+        showPreview :true, //是否显示预览
+        dropZoneEnabled: true,//是否显示拖拽区域
+//        dropZoneTitleClass:"aaa？",
+        maxFileCount:2,
+        browseClass: "btn btn-primary", //按钮样式
+        maxFileSize:0,//单位为kb，如果为0表示不限制文件大小
+    });
+
+    //成功失败回调函数
+    $("#file").on("fileuploaded", function (event, data, previewId, index){
+        alert("文件上传成功");
+    });
+    $("#file").on('filebatchuploaderror', function(event, data, msg) {
+        alert("文件上传失败");
+    });
+
+    function isIE(){
+        //判断是不是ie，手动控制提交按钮，防止有些页面没有提交按钮的bug
+        if (!!window.ActiveXObject || "ActiveXObject" in window){
+            $('#submitbtn').css("display","none");
+        }else{
+            //不是
+            $('#submitbtn').css("display","none");
+        }
+    }
+    isIE();
+</script>
+
+</html>
