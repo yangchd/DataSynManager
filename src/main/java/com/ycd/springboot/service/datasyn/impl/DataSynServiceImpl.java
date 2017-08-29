@@ -1,15 +1,15 @@
 package com.ycd.springboot.service.datasyn.impl;
 
 import com.ycd.springboot.service.datasyn.IDataSynService;
+import com.ycd.springboot.util.datasyn.dao.DataSynDAO;
 import com.ycd.springboot.util.db.DBService;
-import com.ycd.springboot.vo.datasyn.DataSourceVO;
+import com.ycd.springboot.vo.datasyn.DataSynSourceVO;
 import com.ycd.springboot.vo.datasyn.DataSynTableVO;
 import com.ycd.springboot.vo.datasyn.DataSynVO;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -19,47 +19,8 @@ import java.util.*;
 
 @Service("dataSynService")
 public class DataSynServiceImpl implements IDataSynService {
-
     @Override
-    public void beginDataSyn() throws Exception {
-        //获取所有需要同步的配置
-
-        //添加计时
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date begin = null;
-        Date end = null;
-        String msg = "";
-
-        DBService dao = new DBService();
-        String sql = "select * from syn_datasyn where flag = 'true'";
-        List<Map<String,Object>> synlist = dao.execQuery(sql,null);
-
-        //对每一条信息分别进行同步
-        for(Map<String,Object> synMap : synlist){
-            begin = new Date();
-            try {
-                new DataSynTool().startDataSynByMap(synMap);
-            } catch (Exception e) {
-                msg = "同步失败"+e.getMessage();
-                throw new Exception(msg);
-            }finally {
-                end = new Date();
-                int cost = (int) ((end.getTime()-begin.getTime()));
-                String timecose = String.valueOf(cost) + "ms";
-                String begintime = sf.format(begin);
-                DataSynVO dsvo = new DataSynVO();
-                dsvo.setPk_sync(synMap.get("pk_sync").toString());
-                dsvo.setLasttime(begintime);
-                dsvo.setTimecost(timecose);
-                if("".equals(msg))msg = "同步成功！";
-                dsvo.setDatasynmsg(msg);
-                saveDataSyn(dsvo);
-            }
-        }
-    }
-
-    @Override
-    public Boolean conTest(DataSourceVO dvo) throws Exception {
+    public Boolean conTest(DataSynSourceVO dvo) throws Exception {
         Boolean flag = false;
         Connection con = null;
         Class.forName(dvo.getDriver());
@@ -72,7 +33,7 @@ public class DataSynServiceImpl implements IDataSynService {
     }
 
     @Override
-    public Map<String, Object> insertDataSourceByVO(DataSourceVO dvo) throws Exception {
+    public Map<String, Object> insertDataSourceByVO(DataSynSourceVO dvo) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
         DBService dao = new DBService();
 
@@ -111,7 +72,7 @@ public class DataSynServiceImpl implements IDataSynService {
     }
 
     @Override
-    public Map<String, Object> getDataSourceList(DataSourceVO dvo) throws Exception {
+    public Map<String, Object> getDataSourceList(DataSynSourceVO dvo) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
         DBService dao = new DBService();
         List<Map<String,Object>> list = null;
@@ -126,7 +87,7 @@ public class DataSynServiceImpl implements IDataSynService {
     }
 
     @Override
-    public Map<String, Object> getTableNameList(DataSourceVO dvo) throws Exception {
+    public Map<String, Object> getTableNameList(DataSynSourceVO dvo) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
         List<Map<String,Object>> list = null;
         DataSynDB dao = new DataSynTool().getDataSynDB(dvo);
@@ -145,6 +106,7 @@ public class DataSynServiceImpl implements IDataSynService {
             rMap.put("msg", "暂时没有适配！");
             return rMap;
         }
+        sb.append(" order by table_name ");
         list = dao.execQuery(sb.toString(), null);
         rMap.put("retflag", "0");
         rMap.put("msg", "操作成功");
@@ -153,7 +115,7 @@ public class DataSynServiceImpl implements IDataSynService {
     }
 
     @Override
-    public Map<String, Object> getColumnNameList(DataSourceVO dvo, String tablename) throws Exception {
+    public Map<String, Object> getColumnNameList(DataSynSourceVO dvo, String tablename) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
 
         List<Map<String,Object>> list = new DataSynTool().getAllColumn(dvo,tablename);
@@ -167,7 +129,7 @@ public class DataSynServiceImpl implements IDataSynService {
     public Map<String, Object> saveDataSyn(DataSynVO dsvo) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
 
-        rMap = new DataSynTool().insertOrUpdateSyn(dsvo);
+        rMap = DataSynDAO.insertOrUpdateByVO(dsvo);
 
         rMap.put("retflag","0");
         rMap.put("msg","操作成功");
@@ -181,7 +143,7 @@ public class DataSynServiceImpl implements IDataSynService {
         //列名获取 格式整理
         String tablename = tvo.getTablename();
         String pk_datato = dsvo.getPk_datato();
-        DataSourceVO dvo = new DataSourceVO();
+        DataSynSourceVO dvo = new DataSynSourceVO();
         dvo.setPk_datasource(pk_datato);
         List<Map<String,Object>> columnList = new DataSynTool().getAllColumn(dvo,tablename);
         StringBuffer colsb = new StringBuffer();

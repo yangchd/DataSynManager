@@ -2,7 +2,7 @@
 
 //全局后台地址获取
 var getUrl = function () {
-    return "http://10.4.102.51:9001/";
+    return "http://192.168.8.117:9001/";
 };
 
 

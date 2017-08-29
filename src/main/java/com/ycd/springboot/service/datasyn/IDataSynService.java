@@ -1,6 +1,6 @@
 package com.ycd.springboot.service.datasyn;
 
-import com.ycd.springboot.vo.datasyn.DataSourceVO;
+import com.ycd.springboot.vo.datasyn.DataSynSourceVO;
 import com.ycd.springboot.vo.datasyn.DataSynTableVO;
 import com.ycd.springboot.vo.datasyn.DataSynVO;
 
@@ -11,23 +11,20 @@ import java.util.Map;
  * 同步接口
  */
 public interface IDataSynService {
-    //开始同步
-    void beginDataSyn() throws Exception;
-
     //测试连接
-    Boolean conTest(DataSourceVO dvo) throws Exception;
+    Boolean conTest(DataSynSourceVO dvo) throws Exception;
 
     //保存数据源
-    Map<String,Object> insertDataSourceByVO(DataSourceVO dvo) throws Exception;
+    Map<String,Object> insertDataSourceByVO(DataSynSourceVO dvo) throws Exception;
 
     //获取数据源列表
-    Map<String,Object> getDataSourceList(DataSourceVO dvo) throws Exception;
+    Map<String,Object> getDataSourceList(DataSynSourceVO dvo) throws Exception;
 
     //获取表名称列表
-    Map<String,Object> getTableNameList(DataSourceVO dvo) throws Exception;
+    Map<String,Object> getTableNameList(DataSynSourceVO dvo) throws Exception;
 
     //获取列名称列表
-    Map<String,Object> getColumnNameList(DataSourceVO dvo, String tablename) throws Exception;
+    Map<String,Object> getColumnNameList(DataSynSourceVO dvo, String tablename) throws Exception;
 
     //保存同步信息
     Map<String,Object> saveDataSyn(DataSynVO dsvo)  throws Exception;

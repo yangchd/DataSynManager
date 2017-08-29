@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Class-Path: libs\spring-beans-4.3.7.RELEASE.jar libs\slf4j-api-1.7.24.
+ jar libs\spring-boot-starter-web-1.5.2.RELEASE.jar libs\jackson-annot
+ ations-2.8.0.jar libs\ognl-3.0.8.jar libs\logback-classic-1.1.11.jar 
+ libs\spring-boot-starter-tomcat-1.5.2.RELEASE.jar libs\ezmorph-1.0.6.
+ jar libs\tomcat-juli-8.5.11.jar libs\spring-context-4.3.7.RELEASE.jar
+  libs\groovy-2.4.9.jar libs\thymeleaf-layout-dialect-1.4.0.jar libs\j
+ ul-to-slf4j-1.7.24.jar libs\snakeyaml-1.17.jar libs\tomcat-embed-core
+ -8.5.11.jar libs\spring-expression-4.3.7.RELEASE.jar libs\spring-boot
+ -autoconfigure-1.5.2.RELEASE.jar libs\quartz-2.2.1.jar libs\jcl-over-
+ slf4j-1.7.24.jar libs\validation-api-1.1.0.Final.jar libs\spring-webm
+ vc-4.3.7.RELEASE.jar libs\spring-boot-starter-jdbc-1.5.2.RELEASE.jar 
+ libs\spring-core-4.3.7.RELEASE.jar libs\mysql-connector-java-5.1.41.j
+ ar libs\tomcat-embed-el-8.5.11.jar libs\commons-logging-1.1.1.jar lib
+ s\jboss-logging-3.3.0.Final.jar libs\nekohtml-1.9.22.jar libs\jackson
+ -databind-2.8.7.jar libs\spring-aop-4.3.7.RELEASE.jar libs\json-libs-
+ 2.4-jdk15.jar libs\thymeleaf-2.1.5.RELEASE.jar libs\unbescape-1.1.0.R
+ ELEASE.jar libs\spring-web-4.3.7.RELEASE.jar libs\spring-boot-starter
+ -logging-1.5.2.RELEASE.jar libs\logback-core-1.1.11.jar libs\xml-apis
+ -1.4.01.jar libs\spring-boot-1.5.2.RELEASE.jar libs\tomcat-embed-webs
+ ocket-8.5.11.jar libs\spring-boot-starter-1.5.2.RELEASE.jar libs\spri
+ ng-jdbc-4.3.7.RELEASE.jar libs\hibernate-validator-5.3.4.Final.jar li
+ bs\javassist-3.21.0-GA.jar libs\spring-tx-4.3.7.RELEASE.jar libs\c3p0
+ -0.9.1.1.jar libs\log4j-over-slf4j-1.7.24.jar libs\tomcat-jdbc-8.5.11
+ .jar libs\classmate-1.3.3.jar libs\xercesImpl-2.11.0.jar libs\commons
+ -lang-2.5.jar libs\jackson-core-2.8.7.jar libs\commons-collections-3.
+ 2.2.jar libs\spring-boot-starter-thymeleaf-1.5.2.RELEASE.jar libs\com
+ mons-beanutils-1.9.3.jar libs\thymeleaf-spring4-2.1.5.RELEASE.jar lib
+ s\ojdbc6.jar
+Main-Class: com.ycd.springboot.StartProject
+

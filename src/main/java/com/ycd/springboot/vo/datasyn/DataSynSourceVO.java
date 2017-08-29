@@ -4,7 +4,7 @@ package com.ycd.springboot.vo.datasyn;
  * Created by yangchd on 2017/7/25.
  * 数据源VO
  */
-public class DataSourceVO {
+public class DataSynSourceVO {
     private String pk_datasource;
     private String driver;
     private String url;

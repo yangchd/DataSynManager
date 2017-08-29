@@ -1,9 +1,9 @@
 package com.ycd.springboot.controller;
 
 import com.ycd.springboot.service.datasyn.IDataSynService;
-import com.ycd.springboot.service.datasyn.impl.DataSynServiceImpl;
+import com.ycd.springboot.util.datasyn.IUpdateService;
 import com.ycd.springboot.util.Tools;
-import com.ycd.springboot.vo.datasyn.DataSourceVO;
+import com.ycd.springboot.vo.datasyn.DataSynSourceVO;
 import com.ycd.springboot.vo.datasyn.DataSynTableVO;
 import com.ycd.springboot.vo.datasyn.DataSynVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,14 @@ public class DataSynController {
     private IDataSynService dataSynService;
 
     @Autowired
+    private IUpdateService updateService;
+
+    @Autowired
     private Tools tools;
 
     @RequestMapping(value="/savedatasource")
     @ResponseBody
-    public Map<String,Object> saveDataSource(DataSourceVO dvo){
+    public Map<String,Object> saveDataSource(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
         try {
             Boolean flag = dataSynService.conTest(dvo);
@@ -47,7 +50,7 @@ public class DataSynController {
 
     @RequestMapping(value="/getdatasource")
     @ResponseBody
-    public Map<String,Object> getDataSource(DataSourceVO dvo){
+    public Map<String,Object> getDataSource(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
         try {
             rMap = dataSynService.getDataSourceList(dvo);
@@ -60,7 +63,7 @@ public class DataSynController {
 
     @RequestMapping(value="/getalltable")
     @ResponseBody
-    public Map<String,Object> getAllTable(DataSourceVO dvo){
+    public Map<String,Object> getAllTable(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
         try {
             rMap = dataSynService.getTableNameList(dvo);
@@ -73,7 +76,7 @@ public class DataSynController {
 
     @RequestMapping(value="/getcolumnname")
     @ResponseBody
-    public Map<String,Object> getColumnName(DataSourceVO dvo, @RequestParam("tablename") String tablename){
+    public Map<String,Object> getColumnName(DataSynSourceVO dvo, @RequestParam("tablename") String tablename){
         Map<String,Object> rMap = new HashMap<>();
         try {
             rMap = dataSynService.getColumnNameList(dvo,tablename);
@@ -132,9 +135,8 @@ public class DataSynController {
     @ResponseBody
     public Map<String,Object> startDataSyn(){
         Map<String,Object> rMap = new HashMap<>();
-        IDataSynService dataSynService = new DataSynServiceImpl();
         try {
-            dataSynService.beginDataSyn();
+            updateService.beginDataSyn();
             rMap.put("retflag","0");
             rMap.put("msg","同步成功结束");
         } catch (Exception e) {

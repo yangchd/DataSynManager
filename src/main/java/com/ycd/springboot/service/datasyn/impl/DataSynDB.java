@@ -1,6 +1,6 @@
 package com.ycd.springboot.service.datasyn.impl;
 
-import com.ycd.springboot.vo.datasyn.DataSourceVO;
+import com.ycd.springboot.vo.datasyn.DataSynSourceVO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,9 +12,9 @@ public class DataSynDB {
     private Connection con = null;// 连接对象
     private PreparedStatement pstmt = null;// 语句对象
     private ResultSet rs = null;// 结果集对象
-    private DataSourceVO dvo = null;
+    private DataSynSourceVO dvo = null;
 
-    public DataSynDB(DataSourceVO dvo){
+    public DataSynDB(DataSynSourceVO dvo){
         this.dvo = dvo;
     }
     /**

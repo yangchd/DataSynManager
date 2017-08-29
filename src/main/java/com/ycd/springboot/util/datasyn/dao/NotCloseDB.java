@@ -1,6 +1,6 @@
-package com.ycd.springboot.service.datasyn.impl;
+package com.ycd.springboot.util.datasyn.dao;
 
-import com.ycd.springboot.vo.datasyn.DataSourceVO;
+import com.ycd.springboot.vo.datasyn.DataSynSourceVO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ public class NotCloseDB {
     private PreparedStatement pstmt = null;// 语句对象
     private ResultSet rs = null;// 结果集对象
 
-    public NotCloseDB(DataSourceVO dvo){
+    public NotCloseDB(DataSynSourceVO dvo){
         try {
             getConnection(dvo);
         } catch (Exception e) {
@@ -29,7 +29,7 @@ public class NotCloseDB {
     /**
      * 获得连接对象,但是不释放
      */
-    private Connection getConnection(DataSourceVO dvo) throws SQLException, ClassNotFoundException {
+    private Connection getConnection(DataSynSourceVO dvo) throws SQLException, ClassNotFoundException {
         Class.forName(dvo.getDriver());
         con = DriverManager.getConnection(dvo.getUrl(),
                 dvo.getUsername(), dvo.getPassword());
@@ -79,9 +79,6 @@ public class NotCloseDB {
             return this.pstmt.executeUpdate(); // 执行更新，并返回影响行数
         } catch (Exception e) {
             throw new Exception(e.getMessage());
-        }finally {
-            pstmt = null;
-            rs = null;
         }
     }
 
@@ -123,9 +120,6 @@ public class NotCloseDB {
             return al;
         } catch ( Exception e) {
             throw new Exception("数据查询异常:"+e.getMessage()+"\r\nCause by :"+e.getCause()+"\r\n");
-        }finally {
-            pstmt = null;
-            rs = null;
         }
     }
 
