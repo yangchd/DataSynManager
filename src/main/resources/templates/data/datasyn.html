@@ -4,34 +4,36 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1"/>
     <title>Title</title>
-    <link href="../../static/css/bootstrap.css" th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
-    <link href="../../static/css/bootstrap-switch.css" th:href="@{/css/bootstrap-switch.css}" rel="stylesheet"
-          type="text/css"/>
-    <link href="../../static/layui/css/layui.css" th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+    <!--<link href="../../static/datasyn/bootstrap3/css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="../../static/datasyn/bootstrap3/css/bootstrap-switch.css" rel="stylesheet" type="text/css"/>-->
+    <!--<link href="../../static/datasyn/layui/css/layui.css" rel="stylesheet" type="text/css"/>-->
 
-    <script src="../../static/js/jquery.js" th:src="@{/js/jquery.js}" type="text/javascript"></script>
-    <script src="../../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}" type="text/javascript"></script>
-    <script src="../../static/js/bootstrap-switch.js" th:src="@{/js/bootstrap-switch.js}"
-            type="text/javascript"></script>
-    <script src="../../static/layui/layui.js" th:src="@{/layui/layui.js}" type="text/javascript"></script>
-    <script src="../../static/js/tool.js" th:src="@{/js/tool.js}" type="text/javascript"></script>
+    <!--<script src="../../static/js/jquery.js" type="text/javascript"></script>-->
+    <!--<script src="../../static/datasyn/bootstrap3/js/bootstrap.js" type="text/javascript"></script>-->
+    <!--<script src="../../static/datasyn/bootstrap3/js/bootstrap-switch.js" type="text/javascript"></script>-->
+    <!--<script src="../../static/datasyn/layui/layui.js" type="text/javascript"></script>-->
 
-    <script src="../../static/js/html/data/datasyn.js" th:src="@{/js/html/data/datasyn.js}"
-            type="text/javascript"></script>
+    <!--<script src="../../static/datasyn/datasyn.js" type="text/javascript"></script>-->
 
-    <style>
-        .leftjoinfont {
-            padding-top: 9px;
-        }
-    </style>
+    <link href="../../static/datasyn/bootstrap3/css/bootstrap.css" th:href="@{datasyn/bootstrap3/css/bootstrap.css}" rel="stylesheet" type="text/css"/>
+    <link href="../../static/datasyn/bootstrap3/css/bootstrap-switch.css" th:href="@{datasyn/bootstrap3/css/bootstrap-switch.css}" rel="stylesheet" type="text/css"/>
+    <link href="../../static/datasyn/layui/css/layui.css" th:href="@{datasyn/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
+
+    <script src="../../static/js/jquery.js" th:src="@{js/jquery.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/bootstrap3/js/bootstrap.js" th:src="@{datasyn/bootstrap3/js/bootstrap.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/bootstrap3/js/bootstrap-switch.js" th:src="@{datasyn/bootstrap3/js/bootstrap-switch.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/layui/layui.js" th:src="@{datasyn/layui/layui.js}" type="text/javascript"></script>
+
+    <script src="../../static/datasyn/datasyn.js" th:src="@{datasyn/datasyn.js}" type="text/javascript"></script>
+
 </head>
 <body>
 
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body" style="text-align: center">
-            <h1 style="font-size: 48px;">正在施工中!</h1>
-            <p>注意 10.4.102.22这个ip下的库 禁止进行同步测试！</p>
+            <h1 style="font-size: 36px;">数据同步</h1>
+            <!--<p>注意 10.4.102.22这个ip下的库 禁止进行同步测试！</p>-->
         </div>
     </div>
 </div>
@@ -45,7 +47,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">IP</label>
                         <div class="layui-input-block">
-                            <input type="text" id="url_ip" class="form-control" placeholder="like 10.4.102.22">
+                            <input type="text" id="url_ip" class="form-control" placeholder="DataBase IP">
                         </div>
                     </div>
                 </div>
@@ -53,7 +55,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">端口</label>
                         <div class="layui-input-block">
-                            <input type="text" id="url_port" class="form-control" placeholder="like 8080">
+                            <input type="text" id="url_port" class="form-control" placeholder="Port">
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">数据库</label>
                         <div class="layui-input-block">
-                            <input type="text" id="basename" class="form-control" placeholder="like madb or orcl">
+                            <input type="text" id="basename" class="form-control" placeholder="madb or orcl">
                         </div>
                     </div>
                 </div>
@@ -72,6 +74,8 @@
                             <select id="driver" class="form-control">
                                 <option>com.mysql.jdbc.Driver</option>
                                 <option>oracle.jdbc.driver.OracleDriver</option>
+                                <option>com.microsoft.sqlserver.jdbc.SQLServerDriver</option>
+                                <option>com.microsoft.jdbc.sqlserver.SQLServerDriver</option>
                             </select>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
  * spring boot启动类
  */
 
-@ComponentScan(value = {"com.ycd.springboot"})
+@ComponentScan(value = {"com.ycd"})
 @EnableAutoConfiguration
 public class StartProject {
     public static void main(String[] args) throws Exception {
