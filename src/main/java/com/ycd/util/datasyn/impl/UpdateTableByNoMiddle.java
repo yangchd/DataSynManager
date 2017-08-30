@@ -18,6 +18,7 @@ public class UpdateTableByNoMiddle {
 
     private static int SQL_SIZE = 500;
 
+
     //执行所有更新sql
     public Map<String, Object> UpdateTable(DataSynTableVO tvo, NotCloseDB fromdao, NotCloseDB todao) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
