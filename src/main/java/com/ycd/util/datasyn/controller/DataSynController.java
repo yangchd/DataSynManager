@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * Created by yangchd on 2017/7/25.
- * 数据同步
+ * 数据同步有关方法
  */
 @Controller
 @RequestMapping(value="/datasyn")

@@ -34,8 +34,9 @@ public class UpdateServiceImpl implements IUpdateService {
         for(Map<String,Object> synMap : synlist){
             Date begin = new Date();
             try {
-                //这里先暂时写死，不采用中间表形式
-                new UpdateDataTool().startDataSynByMap(synMap,"false");
+                //现在这里先写死 无中间表模式 false
+                String synType = "false";
+                new UpdateDataTool().startDataSynByMap(synMap,synType);
             } catch (Exception e) {
                 msg = "同步失败"+e.getMessage();
                 throw new Exception(msg);

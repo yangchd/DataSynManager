@@ -16,9 +16,6 @@ import java.util.Map;
  */
 public class UpdateTableByNoMiddle {
 
-    private static int SQL_SIZE = 500;
-
-
     //执行所有更新sql
     public Map<String, Object> UpdateTable(DataSynTableVO tvo, NotCloseDB fromdao, NotCloseDB todao) throws Exception {
         Map<String, Object> rMap = new HashMap<>();
@@ -101,13 +98,9 @@ public class UpdateTableByNoMiddle {
         }
         tosql.deleteCharAt(tosql.length() - 1);
 
-        //查询出新的所有数据,然后进行三部操作
+        //查询出需要同步的数据，然后进入比较
         List<Map<String, Object>> fromlist = fromdao.execQuery(fronsql.toString(), null);
         List<Map<String, Object>> tolist = todao.execQuery(tosql.toString(), null);
-
-        if (topk.length != frompk.length) {
-            throw new Exception("主键配置有误");
-        }
 
         String[] frompkvalue = new String[frompk.length];
         String[] topkvalue = new String[topk.length];
@@ -167,9 +160,6 @@ public class UpdateTableByNoMiddle {
             insertsql.append(")");
             //准备参数
 
-            int SIZE = SQL_SIZE;
-            int num = 0;
-            StringBuffer sb = new StringBuffer();
             for (Map<String, Object> anInsert : insert) {
                 plist.add(UpdateDataTool.getObjectValue(anInsert, tvo.getAllcolumn()));
             }
@@ -246,7 +236,8 @@ public class UpdateTableByNoMiddle {
         if (str1.length != str2.length) return false;
         boolean flag = true;
         for (int i = 0; i < str1.length; i++) {
-            if (!str1[i].equals(str2[i])) flag = false;
+            //去掉首尾的空格进行比较
+            if (!str1[i].trim().equals(str2[i].trim())) flag = false;
         }
         return flag;
     }
@@ -260,7 +251,7 @@ public class UpdateTableByNoMiddle {
             a = fromMap.get(to);
             b = toMap.get(to);
             if(null != a && null != b){
-                if(!a.equals(b))flag = false;
+                if(!a.toString().trim().equals(b.toString().trim()))flag = false;
             }else if( a==null && b == null){
                 //相等
             }else{

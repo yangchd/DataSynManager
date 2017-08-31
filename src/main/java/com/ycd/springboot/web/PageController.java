@@ -2,11 +2,10 @@ package com.ycd.springboot.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by yangchd on 2017/7/21.
- * spring boot 测试
+ * spring boot 在这里配置所有的页面请求路径
  */
 
 @Controller

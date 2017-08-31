@@ -1,6 +1,5 @@
 package com.ycd.springboot.util.db;
 
-
 import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -8,7 +7,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 
-
+/**
+ * 连接池工具类，获取数据库连接
+ */
 public class DBPool implements DataSource {
  
     

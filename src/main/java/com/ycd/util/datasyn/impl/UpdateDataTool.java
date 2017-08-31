@@ -22,7 +22,7 @@ public class UpdateDataTool {
      * flag 是否使用同步表
      * by yangchd 2017-08-28
      */
-    public Map<String,Object> startDataSynByMap(Map<String,Object> synMap,String flag) throws Exception {
+    public void startDataSynByMap(Map<String,Object> synMap,String flag) throws Exception {
         Map<String,Object> rMap = new HashMap<>();
         String msg = "";
 
@@ -44,23 +44,28 @@ public class UpdateDataTool {
             if(todao != null){
                 todao.destory();
             }
-            throw new Exception(e.getMessage());
+            throw new Exception("数据源获取失败："+e.getMessage());
         }
-        //获取完整的同步信息
-        DataSynTableVO tvo = new DataSynTableVO();
-        tvo.setPk_table(synMap.get("pk_syntable").toString());
-        tvo = getDataSynTableVO(tvo);
+        try {
+            //获取完整的同步信息
+            DataSynTableVO tvo = new DataSynTableVO();
+            tvo.setPk_table(synMap.get("pk_syntable").toString());
+            tvo = getDataSynTableVO(tvo);
 
-        if("true".equals(flag)){
-            new UpdateTableByMiddle().UpdateTable(tvo,tdvo,fromdao,todao);
-        }else{
-            new UpdateTableByNoMiddle().UpdateTable(tvo,fromdao,todao);
+            if("true".equals(flag)){
+                new UpdateTableByMiddle().UpdateTable(tvo,tdvo,fromdao,todao);
+            }else{
+                new UpdateTableByNoMiddle().UpdateTable(tvo,fromdao,todao);
+            }
+        }finally {
+            //执行完操作以后，关闭连接
+            if(fromdao != null){
+                fromdao.destory();
+            }
+            if(todao != null){
+                todao.destory();
+            }
         }
-        fromdao.destory();
-        todao.destory();
-        rMap.put("retflag","0");
-        rMap.put("msg",msg);
-        return rMap;
     }
 
 
@@ -76,19 +81,22 @@ public class UpdateDataTool {
             List<Map<String,Object>> list = dao.execQuery(sql,null);
             if(list!=null && list.size() == 1){
                 tvo.setTablename(list.get(0).get("tablename")==null?"":list.get(0).get("tablename").toString());
-                tvo.setTablekey(list.get(0).get("tablekey")==null?"":list.get(0).get("tablekey").toString());
-                tvo.setAllcolumn(list.get(0).get("allcolumn")==null?"":list.get(0).get("allcolumn").toString());
                 tvo.setFromtables(list.get(0).get("fromtables")==null?"":list.get(0).get("fromtables").toString());
-                tvo.setRelation(list.get(0).get("relation")==null?"":list.get(0).get("relation").toString());
                 tvo.setTablesrelation(list.get(0).get("tablesrelation")==null?"":list.get(0).get("tablesrelation").toString());
+
+                //对表的主键、列、关联关系进行转小写
+                tvo.setTablekey(list.get(0).get("tablekey")==null?"":list.get(0).get("tablekey").toString().toLowerCase());
+                tvo.setAllcolumn(list.get(0).get("allcolumn")==null?"":list.get(0).get("allcolumn").toString().toLowerCase());
+                tvo.setRelation(list.get(0).get("relation")==null?"":list.get(0).get("relation").toString().toLowerCase());
+
+                //去除多余列信息
+                tvo.setAllcolumn(getColumn(tvo,"to"));
             }else {
                 throw new Exception("配置的同步信息有误，请检查");
             }
         }else{
             throw new Exception("未找到配置的同步信息，请检查配置");
         }
-        String column = getColumn(tvo,"to");
-        tvo.setAllcolumn(column);
         return tvo;
     }
 
