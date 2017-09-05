@@ -1,8 +1,14 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Administrator">
     <words>
+      <w>columnfrom</w>
       <w>datafrom</w>
+      <w>datasourcename</w>
+      <w>datasyntable</w>
       <w>dsvo</w>
+      <w>leftjoin</w>
+      <w>tablefrom</w>
+      <w>tablename</w>
     </words>
   </dictionary>
 </component>

@@ -24,12 +24,26 @@
     <script src="../../static/datasyn/bootstrap3/js/bootstrap-switch.js" th:src="@{datasyn/bootstrap3/js/bootstrap-switch.js}" type="text/javascript"></script>
     <script src="../../static/datasyn/layui/layui.js" th:src="@{datasyn/layui/layui.js}" type="text/javascript"></script>
 
-    <script src="../../static/datasyn/datasyn.js" th:src="@{datasyn/datasyn.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/dataSyn.js" th:src="@{datasyn/dataSyn.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/dataSynSource.js" th:src="@{datasyn/dataSynSource.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/dataSynTable.js" th:src="@{datasyn/dataSynTable.js}" type="text/javascript"></script>
 
     <!--
         jsp页面中获取服务器地址
         request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
     -->
+
+    <style>
+        .right-colse-btn{
+            float: right;
+            padding: 0;
+            background-color: #F5F5F5;
+            cursor: pointer;
+        }
+        a{
+            cursor: pointer;
+        }
+    </style>
 
 </head>
 <body>
@@ -38,81 +52,115 @@
     <div class="panel panel-default">
         <div class="panel-body" style="text-align: center">
             <h1 style="font-size: 36px;">数据同步</h1>
-            <!--<p>注意 10.4.102.22这个ip下的库 禁止进行同步测试！</p>-->
+            <p style="padding-top: 5px;">版本1.1 优化了界面操作</p>
         </div>
     </div>
 </div>
 
 <!--数据源录入-->
-<div class="container" id="createDataSource" style="display: none;text-align: center">
+<div class="container" id="DataSourcePanel" style="display: none;text-align: center">
     <div class="panel panel-default">
+        <div class="panel-heading" style="text-align: left">
+            <p>数据源管理</p>
+            <!--<p>数据源管理<a class="right-colse-btn">关闭</a></p>-->
+        </div>
         <div class="panel-body">
-            <div class="col-sm-12">
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">IP</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="url_ip" class="form-control" placeholder="DataBase IP">
+            <div class="panel panel-default" id="DataSourceBody" style="display: none">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <p  id="pk_datasource" style="display: none"></p>
+                        <div class="col-sm-12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">名称</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="dataSourceName" class="form-control" placeholder="Alias">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">IP</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="url_ip" class="form-control" placeholder="DataBase IP ">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">端口</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="url_port" class="form-control" placeholder="DataBase Port">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">数据库</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="basename" class="form-control" placeholder="DataBase Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">驱动</label>
+                                <div class="layui-input-block">
+                                    <select id="driver" class="form-control">
+                                        <option>com.mysql.jdbc.Driver</option>
+                                        <option>oracle.jdbc.driver.OracleDriver</option>
+                                        <option>com.microsoft.sqlserver.jdbc.SQLServerDriver</option>
+                                        <option>com.microsoft.jdbc.sqlserver.SQLServerDriver</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">用户名</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="username" class="form-control" placeholder="UserName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">密码</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="password" class="form-control" placeholder="Password">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">端口</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="url_port" class="form-control" placeholder="Port">
-                        </div>
+                    <div class="col-sm-12">
+                        <button type="button" id="saveDataSourceBtn" class="btn btn-primary">保存数据源</button>
+                        <button type="button" id="dataSourceBodyCloseBtn" class="btn btn-primary">关闭界面</button>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">数据库</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="basename" class="form-control" placeholder="madb or orcl">
-                        </div>
-                    </div>
+            </div>
+            <div class="panel panel-default" style="text-align: left;">
+                <div class="panel-heading">
+                    <p>数据源列表<a id="DataSourceBodyBtn" style="margin-left: 20px;">新增</a></p>
                 </div>
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">驱动</label>
-                        <div class="layui-input-block">
-                            <select id="driver" class="form-control">
-                                <option>com.mysql.jdbc.Driver</option>
-                                <option>oracle.jdbc.driver.OracleDriver</option>
-                                <option>com.microsoft.sqlserver.jdbc.SQLServerDriver</option>
-                                <option>com.microsoft.jdbc.sqlserver.SQLServerDriver</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">用户名</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="username" class="form-control" placeholder="username">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">密码</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="password" class="form-control" placeholder="password">
-                        </div>
+                <div class="panel-body">
+                    <div class="dataSource-status">
+                        <!--数据源状态-->
                     </div>
                 </div>
             </div>
             <div class="col-sm-12">
-                <button type="button" id="saveDataSourceBtn" class="btn btn-primary">测试连接</button>
-                <button type="button" id="dataSourcePanelBtn" class="btn btn-primary">关闭界面</button>
+                <button type="button" id="DataSourcePanelReLoadBtn" class="btn btn-primary">刷新数据源</button>
+                <button type="button" id="DataSourcePanelCloseBtn" class="btn btn-primary">关闭界面</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- 同步配置 -->
-<div class="container" id="syntable" style="text-align: center;display: none;">
+<!-- 同步表配置 -->
+<div class="container" id="SynTablePanel" style="text-align: center;display: none;">
     <div class="panel panel-default">
+        <div class="panel-heading" style="text-align: left">
+            <p>同步表管理</p>
+        </div>
         <div class="panel-body">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -127,7 +175,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                         <div class="layui-form-item">
                             <label class="layui-form-label">同步表</label>
                             <div class="layui-input-block">
@@ -136,12 +184,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-1"></div>
                 </div>
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="col-sm-12">
+                    <div class="col-sm-4">
                         <div class="layui-form-item">
                             <label class="layui-form-label">来源库</label>
                             <div class="layui-input-block">
@@ -152,7 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         <div class="layui-form-item">
                             <label class="layui-form-label">来源表</label>
                             <div class="layui-input-block">
@@ -161,51 +209,48 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <!--<div class="col-sm-1"></div>-->
+                    <div class="col-sm-4">
                         <button type="button" id="leftjoinbtn" class="btn btn-primary">left join</button>
                         <button type="button" id="resetleftjoin" class="btn btn-primary">重置</button>
                         <button type="button" id="leftjoinmake" class="btn btn-primary">确定</button>
                     </div>
-                    <div id="leftjoin">
-                        <!--<div class="col-sm-12" style="margin-bottom: 6px;">-->
-                        <!--<div class="col-sm-2"><select class="form-control"></select></div>-->
-                        <!--<div class="col-sm-2"><p class="leftjoinfont">left join</p></div>-->
-                        <!--<div class="col-sm-2"><select class="form-control"></select></div>-->
-                        <!--<div class="col-sm-1"><p class="leftjoinfont">on</p></div>-->
-                        <!--<div class="col-sm-2"><select class="form-control"></select></div>-->
-                        <!--<div class="col-sm-1"><p class="leftjoinfont">=</p></div>-->
-                        <!--<div class="col-sm-2"><select class="form-control"></select></div>-->
-                        <!--</div>-->
+                    <div id="leftjoinPanel">
+                        <!--左连接添加-->
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-12" id="column">
-                <!--<div class="col-sm-6">-->
-                <!--<div class="layui-form-item">-->
-                <!--<label class="layui-form-label">列名</label>-->
-                <!--<div class="layui-input-block">-->
-                <!--<input type="text" class="form-control">-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--<div class="col-sm-6">-->
-                <!--<div class="layui-form-item">-->
-                <!--<label class="layui-form-label">匹配</label>-->
-                <!--<div class="layui-input-block">-->
-                <!--<select id="" class="form-control columnfrom">-->
-                <!--</select>-->
-                <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
+            <div class="panel panel-default" id="SynTableColumnPanel" style="display: none">
+                <div class="panel-body">
+                    <div class="col-sm-12" id="SynTableColumn">
+                    </div>
+                </div>
             </div>
             <div class="col-sm-12">
                 <button type="button" id="datasynbtn" class="btn btn-primary">保存配置</button>
-                <button type="button" id="datasynPanelBtn" class="btn btn-primary">关闭界面</button>
+                <button type="button" id="SynTablePanelCloseBtn" class="btn btn-primary">关闭界面</button>
             </div>
         </div>
     </div>
 </div>
+</div>
+
+<!--同步列修改-->
+<div class="container" id="columnPanel" style="display: none;text-align: center">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="text-align: left">
+            列修改
+        </div>
+        <p style="display: none" id="pk_table">主键</p>
+        <div class="panel-body">
+            <div class="col-sm-12" id="columnEdit" style="display: none">
+            </div>
+            <div class="col-sm-12">
+                <button type="button" id="saveColumnEdit" class="btn btn-primary">保存配置</button>
+                <button type="button" id="columnEditPanelClose" class="btn btn-primary">关闭界面</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 运行状态 -->
@@ -217,9 +262,9 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="btn-group" role="group" aria-label="...">
-                            <input class="btn btn-default" id="dataSourcePanelOnBtn" type="button" value="数据源配置"
+                            <input class="btn btn-default" id="dataSourcePanelOnBtn" type="button" value="数据源管理"
                                    style="min-width: 150px">
-                            <input class="btn btn-default" id="dataSynOnBtn" type="button" value="同步配置"
+                            <input class="btn btn-default" id="SynTablePanelOnBtn" type="button" value="同步表管理"
                                    style="min-width: 150px">
                         </div>
                     </div>
@@ -235,26 +280,9 @@
                             <input class="btn btn-default" id="startDataSynBtn" type="button" value="点我进行一次同步"
                                    style="float: left;margin: 10px">
                         </div>
-                        <table class="table table-hover">
-                            <tbody id="datasyntable">
-                            <!--<tr>-->
-                            <!--<th>目标表</th>-->
-                            <!--<th>同步表</th>-->
-                            <!--<th>上次同步时间</th>-->
-                            <!--<th>上次同步耗时</th>-->
-                            <!--<th>开关</th>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                            <!--<td>sm_user</td>-->
-                            <!--<td>person</td>-->
-                            <!--<td>2017-04-06</td>-->
-                            <!--<td>50s</td>-->
-                            <!--<td>-->
-                            <!--<input name="status" type="checkbox" data-size="mini">-->
-                            <!--</td>-->
-                            <!--</tr>-->
-                            </tbody>
-                        </table>
+                        <div id="datasyntable">
+                            <!--数据同步状态加载-->
+                        </div>
                     </div>
                 </div>
             </div>

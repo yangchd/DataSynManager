@@ -3,9 +3,9 @@ package com.ycd.util.datasyn.controller;
 import com.ycd.util.datasyn.IDataSynService;
 import com.ycd.util.datasyn.IUpdateService;
 import com.ycd.util.datasyn.DataSynTools;
-import com.ycd.util.datasyn.vo.DataSynSourceVO;
-import com.ycd.util.datasyn.vo.DataSynTableVO;
-import com.ycd.util.datasyn.vo.DataSynVO;
+import com.ycd.util.datasyn.dao.vo.DataSynSourceVO;
+import com.ycd.util.datasyn.dao.vo.DataSynTableVO;
+import com.ycd.util.datasyn.dao.vo.DataSynVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import java.util.Map;
  * 数据同步有关方法
  */
 @Controller
-@RequestMapping(value="/datasyn")
+@RequestMapping(value="/dataSyn")
 public class DataSynController {
 
     @Autowired
@@ -32,15 +32,14 @@ public class DataSynController {
     @Autowired
     private DataSynTools tools;
 
-    @RequestMapping(value="/savedatasource")
+    @RequestMapping(value="/testConnection")
     @ResponseBody
-    public Map<String,Object> saveDataSource(DataSynSourceVO dvo){
+    public Map<String,Object> testConnection(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
         try {
             Boolean flag = dataSynService.conTest(dvo);
             if(flag){
-                rMap = dataSynService.insertDataSourceByVO(dvo);
-                rMap = tools.getReMap(rMap.get("retflag").toString(),"连接成功，"+rMap.get("msg").toString(),null);
+                rMap = tools.getReMap("0","连接成功",null);
             }
         } catch (Exception e) {
             rMap = tools.getReMap("1","连接失败"+e.getMessage(),null);
@@ -48,9 +47,25 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/getdatasource")
+    @RequestMapping(value="/saveDataSource")
     @ResponseBody
-    public Map<String,Object> getDataSource(DataSynSourceVO dvo){
+    public Map<String,Object> saveDataSource(DataSynSourceVO dvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            Boolean flag = dataSynService.conTest(dvo);
+            if(flag){
+                rMap = dataSynService.insertDataSourceByVO(dvo);
+                rMap = tools.getReMap(rMap.get("retflag").toString(),"数据源保存成功",null);
+            }
+        } catch (Exception e) {
+            rMap = tools.getReMap("1","数据源操作失败："+e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/getDataSource")
+    @ResponseBody
+    public Map<String,Object> getDataSourceList(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
         try {
             rMap = dataSynService.getDataSourceList(dvo);
@@ -61,7 +76,20 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/getalltable")
+    @RequestMapping(value="/deleteDataSource")
+    @ResponseBody
+    public Map<String,Object> deleteDataSource(DataSynSourceVO dvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            rMap = dataSynService.deleteDataSourceByVO(dvo);
+            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
+        } catch (Exception e) {
+            rMap = tools.getReMap("1",e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/getTables")
     @ResponseBody
     public Map<String,Object> getAllTable(DataSynSourceVO dvo){
         Map<String,Object> rMap = new HashMap<>();
@@ -74,7 +102,7 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/getcolumnname")
+    @RequestMapping(value="/getColumnName")
     @ResponseBody
     public Map<String,Object> getColumnName(DataSynSourceVO dvo, @RequestParam("tablename") String tablename){
         Map<String,Object> rMap = new HashMap<>();
@@ -87,21 +115,7 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/savedatasyn")
-    @ResponseBody
-    public Map<String,Object> saveDataSyn(DataSynVO dsvo){
-        Map<String,Object> rMap = new HashMap<>();
-        try {
-            //先插入同步表信息
-            rMap = dataSynService.saveDataSyn(dsvo);
-            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
-        } catch (Exception e) {
-            rMap = tools.getReMap("1",e.getMessage(),null);
-        }
-        return rMap;
-    }
-
-    @RequestMapping(value="/savedatasyntable")
+    @RequestMapping(value="/saveDataSynTable")
     @ResponseBody
     public Map<String,Object> saveDataSynAndTable(DataSynVO dsvo, DataSynTableVO tvo){
         Map<String,Object> rMap = new HashMap<>();
@@ -117,7 +131,35 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/getdatasynstatus")
+    @RequestMapping(value="/updateSynTable")
+    @ResponseBody
+    public Map<String,Object> updateSynTable(DataSynTableVO tvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            //先插入同步表信息
+            rMap = dataSynService.updateSynTableByVO(tvo);
+            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
+        } catch (Exception e) {
+            rMap = tools.getReMap("1",e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/saveDataSyn")
+    @ResponseBody
+    public Map<String,Object> saveDataSyn(DataSynVO dsvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            //先插入同步表信息
+            rMap = dataSynService.saveDataSyn(dsvo);
+            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
+        } catch (Exception e) {
+            rMap = tools.getReMap("1",e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/getDataSynStatus")
     @ResponseBody
     public Map<String,Object> getDataSynStatus(){
         Map<String,Object> rMap = new HashMap<>();
@@ -131,7 +173,35 @@ public class DataSynController {
         return rMap;
     }
 
-    @RequestMapping(value="/startdatasyn")
+    @RequestMapping(value="/getDataSyn")
+    @ResponseBody
+    public Map<String,Object> getDataSynByPk(DataSynVO dvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            //先插入同步表信息
+            rMap = dataSynService.getDataSynByVO(dvo);
+            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),rMap.get("data"));
+        } catch (Exception e) {
+            rMap = tools.getReMap("1",e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/deleteDataSyn")
+    @ResponseBody
+    public Map<String,Object> deleteDataSyn(DataSynVO dvo){
+        Map<String,Object> rMap = new HashMap<>();
+        try {
+            //先插入同步表信息
+            rMap = dataSynService.deleteDataSynByVO(dvo);
+            rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
+        } catch (Exception e) {
+            rMap = tools.getReMap("1",e.getMessage(),null);
+        }
+        return rMap;
+    }
+
+    @RequestMapping(value="/startSyn")
     @ResponseBody
     public Map<String,Object> startDataSyn(){
         Map<String,Object> rMap = new HashMap<>();
@@ -141,7 +211,8 @@ public class DataSynController {
             rMap.put("msg","同步成功结束");
         } catch (Exception e) {
             rMap.put("retflag","1");
-            rMap.put("msg","同步失败! "+e.getMessage());
+            rMap.put("msg",e.getMessage());
+//            rMap.put("msg","同步失败! "+e.getMessage());
         }
         rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),rMap.get("data"));
         return rMap;

@@ -1,6 +1,6 @@
 package com.ycd.util.datasyn.dao;
 
-import com.ycd.util.datasyn.vo.DataSynSourceVO;
+import com.ycd.util.datasyn.dao.vo.DataSynSourceVO;
 import com.ycd.util.datasyn.dao.db.DBService;
 import com.ycd.util.datasyn.dao.db.DataSynDB;
 import com.ycd.util.datasyn.dao.db.NotCloseDB;

@@ -3,7 +3,7 @@ package com.ycd.util.datasyn.impl;
 import com.ycd.springboot.util.TimeTool;
 import com.ycd.util.datasyn.IUpdateService;
 import com.ycd.util.datasyn.dao.DataSynDAO;
-import com.ycd.util.datasyn.vo.DataSynVO;
+import com.ycd.util.datasyn.dao.vo.DataSynVO;
 import com.ycd.util.datasyn.dao.db.DBService;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +26,9 @@ public class UpdateServiceImpl implements IUpdateService {
         DBService dao = new DBService();
         String sql = "select * from syn_datasyn where flag = 'true'";
         List<Map<String,Object>> synlist = dao.execQuery(sql,null);
+        if(synlist == null || synlist.size() <1){
+            throw new Exception("没有同步任务！");
+        }
 
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String msg = "";

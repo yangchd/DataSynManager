@@ -1,4 +1,4 @@
-package com.ycd.util.datasyn.vo;
+package com.ycd.util.datasyn.dao.vo;
 
 /**
  * Created by yangchd on 2017/8/1.
@@ -11,6 +11,7 @@ public class DataSynTableVO {
     private String fromtables;
     private String tablesrelation;
     private String allcolumn;
+    private String allcolumnfrom;
     private String relation;
 
     public String getPk_table() {
@@ -67,5 +68,13 @@ public class DataSynTableVO {
 
     public void setAllcolumn(String allcolumn) {
         this.allcolumn = allcolumn;
+    }
+
+    public String getAllcolumnfrom() {
+        return allcolumnfrom;
+    }
+
+    public void setAllcolumnfrom(String allcolumnfrom) {
+        this.allcolumnfrom = allcolumnfrom;
     }
 }

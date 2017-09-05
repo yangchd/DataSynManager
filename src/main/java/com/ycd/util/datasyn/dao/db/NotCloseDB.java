@@ -1,6 +1,6 @@
 package com.ycd.util.datasyn.dao.db;
 
-import com.ycd.util.datasyn.vo.DataSynSourceVO;
+import com.ycd.util.datasyn.dao.vo.DataSynSourceVO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -108,6 +108,7 @@ public class NotCloseDB {
                 con.setAutoCommit(true);
             } catch (SQLException e) {
                 con.rollback();
+                throw new Exception(e.getMessage());
             }
         } else {
             num = this.pstmt.executeUpdate(); // 执行更新，并返回影响行数

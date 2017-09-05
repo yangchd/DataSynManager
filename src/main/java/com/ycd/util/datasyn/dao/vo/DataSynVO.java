@@ -1,4 +1,4 @@
-package com.ycd.util.datasyn.vo;
+package com.ycd.util.datasyn.dao.vo;
 
 /**
  * Created by yangchd on 2017/8/1.

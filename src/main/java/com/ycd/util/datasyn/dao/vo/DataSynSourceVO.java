@@ -1,4 +1,4 @@
-package com.ycd.util.datasyn.vo;
+package com.ycd.util.datasyn.dao.vo;
 
 /**
  * Created by yangchd on 2017/7/25.
@@ -6,11 +6,14 @@ package com.ycd.util.datasyn.vo;
  */
 public class DataSynSourceVO {
     private String pk_datasource;
-    private String driver;
+    private String datasourcename;
     private String url;
-    private String basename;
     private String username;
     private String password;
+    private String basename;
+    private String driver;
+    private String url_ip;
+    private String url_port;
 
     public String getPk_datasource() {
         return pk_datasource;
@@ -20,12 +23,12 @@ public class DataSynSourceVO {
         this.pk_datasource = pk_datasource;
     }
 
-    public String getDriver() {
-        return driver;
+    public String getDatasourcename() {
+        return datasourcename;
     }
 
-    public void setDriver(String driver) {
-        this.driver = driver;
+    public void setDatasourcename(String datasourcename) {
+        this.datasourcename = datasourcename;
     }
 
     public String getUrl() {
@@ -58,5 +61,29 @@ public class DataSynSourceVO {
 
     public void setBasename(String basename) {
         this.basename = basename;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public void setDriver(String driver) {
+        this.driver = driver;
+    }
+
+    public String getUrl_ip() {
+        return url_ip;
+    }
+
+    public void setUrl_ip(String url_ip) {
+        this.url_ip = url_ip;
+    }
+
+    public String getUrl_port() {
+        return url_port;
+    }
+
+    public void setUrl_port(String url_port) {
+        this.url_port = url_port;
     }
 }

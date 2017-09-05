@@ -35,6 +35,11 @@ public class DataSynTools {
         return con;
     }
 
+    //输出信息
+    public static void Logger(String msg){
+        System.out.println(msg);
+    }
+
     public String getWebPath(HttpServletRequest request){
         return request.getServletContext().getRealPath("/");
     }

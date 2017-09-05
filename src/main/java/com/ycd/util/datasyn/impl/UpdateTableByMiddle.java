@@ -1,8 +1,8 @@
 package com.ycd.util.datasyn.impl;
 
 import com.ycd.util.datasyn.dao.db.NotCloseDB;
-import com.ycd.util.datasyn.vo.DataSynSourceVO;
-import com.ycd.util.datasyn.vo.DataSynTableVO;
+import com.ycd.util.datasyn.dao.vo.DataSynSourceVO;
+import com.ycd.util.datasyn.dao.vo.DataSynTableVO;
 import net.sf.json.JSONObject;
 
 import java.util.ArrayList;

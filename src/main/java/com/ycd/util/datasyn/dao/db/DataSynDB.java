@@ -1,6 +1,6 @@
 package com.ycd.util.datasyn.dao.db;
 
-import com.ycd.util.datasyn.vo.DataSynSourceVO;
+import com.ycd.util.datasyn.dao.vo.DataSynSourceVO;
 
 import java.sql.*;
 import java.util.ArrayList;
