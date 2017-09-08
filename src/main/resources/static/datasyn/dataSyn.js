@@ -1,7 +1,13 @@
 //获取后台地址
 var getUrl = function () {
-    // return "http://192.168.8.117:9001/";
-    return "http://10.4.102.43:9001/";
+    //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+    var curWwwPath=window.document.location.href;
+    //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    return curWwwPath.substring(0, pos)+"/";
+
     // return "http://localhost:9001/";
 };
 
@@ -11,7 +17,7 @@ var alertmsg = function (msg) {
         var layer = layui.layer;
         if (msg === "error") {
             layer.msg('发生了点小问题，稍后再试~');
-        } else if (msg !== "" && msg.length >= 50) {
+        } else if (msg !== "" && "undefined"!==msg && msg.length >= 20) {
             alert(msg);
         } else {
             layer.msg(msg);
@@ -118,6 +124,8 @@ var loadDataSyn = function (node, list) {
                     loadColumnRelation($('#columnEdit'),result.data[0].allcolumn,result.data[0].allcolumnfrom,$('#columnPanel'),result.data[0].relation);
                     $('#pk_table').empty();
                     $('#pk_table').html(result.data[0].pk_table);
+                    $('#wherevalueEdit').css("display","block");
+                    $('#wherevaluebyedit').val(result.data[0].wherevalue);
                 }else{
                     alertmsg(result.msg)
                 }
@@ -182,7 +190,11 @@ var bootstrapswitch = function (id, flag) {
                 data: data,
                 url: getUrl() + "dataSyn/saveDataSyn",
                 success: function (result) {
-                    alertmsg(result.msg)
+                    if(result.retflag === "0"){
+                        alertmsg("操作成功！");
+                    }else{
+                        alertmsg(result.msg)
+                    }
                 },
                 error: function (result) {
                     alertmsg(result.msg)

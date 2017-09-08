@@ -28,6 +28,8 @@ public class DBPool implements DataSource {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/datasyn?useUnicode=true&characterEncoding=utf-8&useSSL=false&useOldAliasMetadataBehavior=true",
 					"ycd","111111");
+//			con = DriverManager.getConnection("jdbc:mysql://10.15.0.189:3306/madb?useUnicode=true&characterEncoding=utf-8&useSSL=false&useOldAliasMetadataBehavior=true",
+//					"ma","Maq1w2e3r4!");
 		} catch (Exception e) {
 		}
     	return con;

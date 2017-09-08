@@ -225,6 +225,7 @@ var conTest = function () {
         $.ajax({
             type: "get",
             url: getUrl() + "dataSyn/saveDataSource",
+            timeout:1000,
             data: data,
             success: function (result) {
                 if(result.retflag === "0"){
@@ -250,12 +251,13 @@ var testConnection = function (driver, url, username, password) {
     $.ajax({
         type: "get",
         url: getUrl() + "dataSyn/testConnection",
+        timeout:1000,
         data: data,
         success: function (result) {
             alertmsg(result.msg);
         },
         error: function (result) {
-            alertmsg(result);
+            alertmsg(result.statusText);
         }
     })
 };

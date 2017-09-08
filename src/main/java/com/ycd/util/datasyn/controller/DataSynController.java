@@ -212,9 +212,8 @@ public class DataSynController {
         } catch (Exception e) {
             rMap.put("retflag","1");
             rMap.put("msg",e.getMessage());
-//            rMap.put("msg","同步失败! "+e.getMessage());
         }
-        rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),rMap.get("data"));
+        rMap = tools.getReMap(rMap.get("retflag").toString(),rMap.get("msg").toString(),null);
         return rMap;
     }
 

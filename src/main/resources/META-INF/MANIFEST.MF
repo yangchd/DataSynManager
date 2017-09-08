@@ -27,5 +27,5 @@ Class-Path: libs\spring-beans-4.3.7.RELEASE.jar libs\slf4j-api-1.7.24.
  2.2.jar libs\spring-boot-starter-thymeleaf-1.5.2.RELEASE.jar libs\com
  mons-beanutils-1.9.3.jar libs\thymeleaf-spring4-2.1.5.RELEASE.jar lib
  s\ojdbc6.jar
-Main-Class: com.ycd.springboot.StartProject
+Main-Class: com.ycd.StartProject
 

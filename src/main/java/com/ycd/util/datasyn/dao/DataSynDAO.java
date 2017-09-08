@@ -17,17 +17,21 @@ public class DataSynDAO {
 
         StringBuffer sql = new StringBuffer();
         sql.append(" select * from syn_datasyn a left join syn_table b on a.pk_syntable = b.pk_table where 1=1 ");
+        List<Object> plist = new ArrayList<>();
+        if(dsvo.getPk_sync() != null){sql.append(" and pk_sync = ? ");plist.add(dsvo.getPk_sync());}
+        if(dsvo.getPk_datafrom() != null){sql.append(" and pk_datafrom = ? ");plist.add(dsvo.getPk_datafrom());}
+        if(dsvo.getPk_datato() != null){sql.append(" and pk_datato = ? ");plist.add(dsvo.getPk_datato());}
+        if(dsvo.getPk_syntable() != null){sql.append(" and pk_syntable = ? ");plist.add(dsvo.getPk_syntable());}
+        if(dsvo.getFlag() != null){sql.append(" and flag = ? ");plist.add(dsvo.getFlag());}
+        if(dsvo.getLasttime() != null){sql.append(" and lasttime = ? ");plist.add(dsvo.getLasttime());}
+        if(dsvo.getTimecost() != null){sql.append(" and timecost = ? ");plist.add(dsvo.getTimecost());}
+        if(dsvo.getDatasynmsg() != null){sql.append(" and datasynmsg = ? ");plist.add(dsvo.getDatasynmsg());}
 
-        if(dsvo.getPk_sync() != null)sql.append(" and pk_sync = '"+dsvo.getPk_sync()+"' ");
-        if(dsvo.getPk_datafrom() != null)sql.append(" and pk_datafrom = '"+dsvo.getPk_datafrom()+"' ");
-        if(dsvo.getPk_datato() != null)sql.append(" and pk_datato = '"+dsvo.getPk_datato()+"' ");
-        if(dsvo.getPk_syntable() != null)sql.append(" and pk_syntable = '"+dsvo.getPk_syntable()+"' ");
-        if(dsvo.getFlag() != null)sql.append(" and flag = '"+dsvo.getFlag()+"' ");
-        if(dsvo.getLasttime() != null)sql.append(" and lasttime = '"+dsvo.getLasttime()+"' ");
-        if(dsvo.getTimecost() != null)sql.append(" and timecost = '"+dsvo.getTimecost()+"' ");
-        if(dsvo.getDatasynmsg() != null)sql.append(" and datasynmsg = '"+dsvo.getDatasynmsg()+"' ");
-
-        return dao.execQuery(sql.toString(),null);
+        Object[] objects = new Object[plist.size()];
+        for(int i=0;i<plist.size();i++){
+            objects[i] = plist.get(i);
+        }
+        return dao.execQuery(sql.toString(),objects);
     }
 
 
@@ -72,9 +76,9 @@ public class DataSynDAO {
             }
         }
         StringBuffer sql = new StringBuffer();
-        List<Object> plist = new ArrayList<>();
         Object[] para;
         if(pk_sync!=null && !"".equals(pk_sync)){
+            List<Object> plist = new ArrayList<>();
             sql.append(" update syn_datasyn set ");
             if(dsvo.getPk_datafrom() != null){sql.append(" pk_datafrom = ? ,");plist.add(dsvo.getPk_datafrom());}
             if(dsvo.getPk_datato() != null){sql.append(" pk_datato = ? ,");plist.add(dsvo.getPk_datato());}
@@ -84,23 +88,20 @@ public class DataSynDAO {
             if(dsvo.getTimecost() != null){sql.append(" timecost = ? ,");plist.add(dsvo.getTimecost());}
             if(dsvo.getDatasynmsg() != null){sql.append(" datasynmsg = ? ,");plist.add(dsvo.getDatasynmsg());}
             sql.deleteCharAt(sql.length()-1);
-            sql.append(" where pk_sync = '"+pk_sync+"' ");
-            //添加参数
-            if(plist.size()>0){
-                para = new Object[plist.size()];
-                for(int i=0;i<plist.size();i++){
-                    para[i] = plist.get(i);
-                }
-                dao.execUpdate(sql.toString(),para);
+            sql.append(" where pk_sync = ? ");
+            plist.add(pk_sync);
+            para = new Object[plist.size()];
+            for (int i = 0; i < plist.size(); i++) {
+                para[i] = plist.get(i);
             }
+            dao.execUpdate(sql.toString(), para);
             rMap.put("msg","同步列表更新成功");
         }else{
             pk_sync = UUID.randomUUID().toString();
             sql.append(" insert into syn_datasyn(pk_sync,pk_datafrom,pk_datato,pk_syntable,flag,lasttime,timecost,datasynmsg) "
                     +" values(?,?,?,?,?,?,?,?) ");
-            para = new Object[8];
-            para[0] = pk_sync;para[1] = dsvo.getPk_datafrom();para[2] = dsvo.getPk_datato();para[3] = dsvo.getPk_syntable();
-            para[4] = dsvo.getFlag();para[5] = dsvo.getLasttime();para[6] = dsvo.getTimecost();para[7] = dsvo.getDatasynmsg();
+            para = new Object[]{pk_sync,dsvo.getPk_datafrom(),dsvo.getPk_datato(),dsvo.getPk_syntable(),dsvo.getFlag(),
+                    dsvo.getLasttime(),dsvo.getTimecost(),dsvo.getDatasynmsg()};
             dao.execUpdate(sql.toString(),para);
             rMap.put("msg","同步列表新增成功");
         }

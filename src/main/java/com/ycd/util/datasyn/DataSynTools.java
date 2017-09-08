@@ -1,8 +1,10 @@
 package com.ycd.util.datasyn;
 
 import com.ycd.springboot.util.db.DBPool;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,11 +16,12 @@ import java.util.Map;
  * 工具类
  */
 
-@Component
+@Service
 public class DataSynTools {
 
     //这个工程移动到其他工程时，请重写这个方法，获取正确的连接
     public Connection getConnection() {
+
         DBPool pool = new DBPool();
         Connection con = null;
         try{

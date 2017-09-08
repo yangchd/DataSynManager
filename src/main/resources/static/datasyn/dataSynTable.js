@@ -19,6 +19,8 @@ var ColumnPanelClose = function () {
     $('#columnEdit').empty();
     $('#SynTablePanel').css("display", "none");
     $('#columnPanel').css("display", "none");
+    $('#wherevalueEdit').css("display", "none");
+    $('#wherevaluebyedit').val("");
 };
 
 //联动加载
@@ -32,6 +34,9 @@ var LinkAction = function () {
 
     //left join功能
     addLeftJoin($('#leftjoinPanel'),$('#tablefrom'));
+
+    //where功能
+    addWhereBtn();
 };
 
 //本界面使用的参数
@@ -163,7 +168,11 @@ var addLeftJoin = function (node,tablefrom) {
             var haschose = tablefrom.val();//已关联的所有表 ，分割
             for (var i = 1; i < joinnum + 1; i++) {
                 //如果没有关联过这个表，则添加
-                if (haschose.indexOf($('#joinright' + i).val()) < 0) {
+                var flag = true;
+                for(var table in haschose.split(",")){
+                    if(table === $('#joinright' + i).val())flag = false;
+                }
+                if(flag){
                     haschose += "," + $('#joinright' + i).val();
                     tablechose += '<option>' + $('#joinright' + i).val() + '</option>';
                 }
@@ -195,6 +204,8 @@ var addLeftJoin = function (node,tablefrom) {
     $('#resetleftjoin').on('click', function () {
         joinnum = 0;
         $('#leftjoinPanel').empty();
+        $('#wherePanel').css("display","none");
+        $('#wherevalue').val("");
     });
     //确定按钮功能
     $('#leftjoinmake').on('click', function () {
@@ -236,6 +247,13 @@ var addLeftJoin = function (node,tablefrom) {
                 }
             })
         }
+    })
+};
+
+
+var addWhereBtn = function () {
+    $('#wherebtn').on('click',function () {
+        $('#wherePanel').css("display","block");
     })
 };
 
@@ -312,6 +330,7 @@ var saveDataSynBtn = function () {
     //创建时保存
     $('#datasynbtn').on('click', function () {
         //列关系获取
+        var wherevalue = $('#wherevalue').val();
         var columnto = $('.columnto');
         var columnfrom = $('.columnfrom');
         var relation = {};
@@ -334,6 +353,7 @@ var saveDataSynBtn = function () {
             fromtables: fromtables,
             relation: JSON.stringify(relation),
             tablesrelation: tablesrelation,
+            wherevalue:wherevalue,
             allcolumnfrom:allcolumnfrom
         };
         $.ajax({
@@ -358,6 +378,7 @@ var saveDataSynBtn = function () {
     //修改时保存
     $('#saveColumnEdit').on('click', function () {
         //列关系获取
+        var wherevalue = $('#wherevaluebyedit').val();
         var columnto = $('.columnto');
         var columnfrom = $('.columnfrom');
         var relation = {};
@@ -368,6 +389,7 @@ var saveDataSynBtn = function () {
 
         var data = {
             pk_table:$('#pk_table').text(),
+            wherevalue:wherevalue,
             relation: JSON.stringify(relation)
         };
         $.ajax({

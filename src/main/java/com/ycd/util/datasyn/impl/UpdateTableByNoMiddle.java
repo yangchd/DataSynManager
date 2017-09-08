@@ -83,6 +83,9 @@ public class UpdateTableByNoMiddle {
         StringBuffer fronsql = new StringBuffer();
         fronsql.append("select DISTINCT ").append(UpdateDataTool.getColumnSQL(tvo,fromdao,"as"))
                 .append(" from ").append(fromtable);
+        if(tvo.getWherevalue()!=null && !"".equals(tvo.getWherevalue())){
+            fronsql.append(" where 1=1 and ("+tvo.getWherevalue()+") ");
+        }
         fronsql.append(" order by ");
         for (String aFrompk : frompk) {
             fronsql.append(UpdateDataTool.addSymbol(aFrompk,fromdao)).append(" asc,");
@@ -102,8 +105,8 @@ public class UpdateTableByNoMiddle {
         List<Map<String, Object>> fromlist = fromdao.execQuery(fronsql.toString(), null);
         List<Map<String, Object>> tolist = todao.execQuery(tosql.toString(), null);
 
-        String[] frompkvalue = new String[frompk.length];
-        String[] topkvalue = new String[topk.length];
+        Object[] frompkvalue = new Object[frompk.length];
+        Object[] topkvalue = new Object[topk.length];
 
         //分别存放insert、delete、update的语句
         List<Map<String, Object>> insert = new ArrayList<>();
@@ -113,11 +116,11 @@ public class UpdateTableByNoMiddle {
         for (int i = 0; i < fromlist.size(); i++) {
             //先获取主键值
             for (int m = 0; m < frompkvalue.length; m++) {
-                frompkvalue[m] = fromlist.get(i).get(topk[m]).toString();
+                frompkvalue[m] = fromlist.get(i).get(topk[m]);
             }
             for (int j = 0; j < tolist.size(); j++) {
                 for (int n = 0; n < topkvalue.length; n++) {
-                    topkvalue[n] = tolist.get(j).get(topk[n]).toString();
+                    topkvalue[n] = tolist.get(j).get(topk[n]);
                 }
                 if (isPkEquals(frompkvalue, topkvalue)) {
                     //找到对应list,判断是否相等
@@ -232,12 +235,20 @@ public class UpdateTableByNoMiddle {
 
 
     //判断主键是否完全相等
-    private static boolean isPkEquals(String[] str1, String[] str2) {
+    private static boolean isPkEquals(Object[] str1, Object[] str2) {
         if (str1.length != str2.length) return false;
         boolean flag = true;
+        Object a,b;
         for (int i = 0; i < str1.length; i++) {
-            //去掉首尾的空格进行比较
-            if (!str1[i].trim().equals(str2[i].trim())) flag = false;
+            a = str1[i];
+            b = str2[i];
+            if(null != a && null != b){
+                if(!a.toString().trim().equals(b.toString().trim()))flag = false;
+            }else if( a==null && b == null){
+                //相等
+            }else{
+                flag = false;
+            }
         }
         return flag;
     }

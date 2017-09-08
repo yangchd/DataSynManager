@@ -19,7 +19,7 @@
     <link href="../../static/datasyn/bootstrap3/css/bootstrap-switch.css" th:href="@{datasyn/bootstrap3/css/bootstrap-switch.css}" rel="stylesheet" type="text/css"/>
     <link href="../../static/datasyn/layui/css/layui.css" th:href="@{datasyn/layui/css/layui.css}" rel="stylesheet" type="text/css"/>
 
-    <script src="../../static/js/jquery.js" th:src="@{js/jquery.js}" type="text/javascript"></script>
+    <script src="../../static/datasyn/jquery.js" th:src="@{datasyn/jquery.js}" type="text/javascript"></script>
     <script src="../../static/datasyn/bootstrap3/js/bootstrap.js" th:src="@{datasyn/bootstrap3/js/bootstrap.js}" type="text/javascript"></script>
     <script src="../../static/datasyn/bootstrap3/js/bootstrap-switch.js" th:src="@{datasyn/bootstrap3/js/bootstrap-switch.js}" type="text/javascript"></script>
     <script src="../../static/datasyn/layui/layui.js" th:src="@{datasyn/layui/layui.js}" type="text/javascript"></script>
@@ -212,11 +212,23 @@
                     <!--<div class="col-sm-1"></div>-->
                     <div class="col-sm-4">
                         <button type="button" id="leftjoinbtn" class="btn btn-primary">left join</button>
+                        <button type="button" id="wherebtn" class="btn btn-primary">where</button>
                         <button type="button" id="resetleftjoin" class="btn btn-primary">重置</button>
                         <button type="button" id="leftjoinmake" class="btn btn-primary">确定</button>
                     </div>
                     <div id="leftjoinPanel">
                         <!--左连接添加-->
+                    </div>
+                    <div id="wherePanel" style="display: none;">
+                        <!--where语句-->
+                        <div class="col-sm-12">
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">where</label>
+                                <div class="layui-input-block">
+                                    <input type="text" id="wherevalue" class="form-control" placeholder="在这里添加where语句,只对来源表有效">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,6 +256,16 @@
         <p style="display: none" id="pk_table">主键</p>
         <div class="panel-body">
             <div class="col-sm-12" id="columnEdit" style="display: none">
+            </div>
+            <div class="col-sm-12" id="wherevalueEdit" style="display: none">
+                <div class="col-sm-12">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">where</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="wherevaluebyedit" class="form-control" placeholder="在这里添加where语句,只对来源表有效">
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-sm-12">
                 <button type="button" id="saveColumnEdit" class="btn btn-primary">保存配置</button>

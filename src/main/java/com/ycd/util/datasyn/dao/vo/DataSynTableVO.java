@@ -10,6 +10,7 @@ public class DataSynTableVO {
     private String tablekey;
     private String fromtables;
     private String tablesrelation;
+    private String wherevalue;
     private String allcolumn;
     private String allcolumnfrom;
     private String relation;
@@ -76,5 +77,13 @@ public class DataSynTableVO {
 
     public void setAllcolumnfrom(String allcolumnfrom) {
         this.allcolumnfrom = allcolumnfrom;
+    }
+
+    public String getWherevalue() {
+        return wherevalue;
+    }
+
+    public void setWherevalue(String wherevalue) {
+        this.wherevalue = wherevalue;
     }
 }

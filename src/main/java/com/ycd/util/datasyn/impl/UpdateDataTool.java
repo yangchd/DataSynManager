@@ -88,7 +88,7 @@ public class UpdateDataTool {
                 tvo.setTablekey(list.get(0).get("tablekey")==null?"":list.get(0).get("tablekey").toString().toLowerCase());
                 tvo.setAllcolumn(list.get(0).get("allcolumn")==null?"":list.get(0).get("allcolumn").toString().toLowerCase());
                 tvo.setRelation(list.get(0).get("relation")==null?"":list.get(0).get("relation").toString().toLowerCase());
-
+                tvo.setWherevalue(list.get(0).get("wherevalue")==null?"":list.get(0).get("wherevalue").toString().toLowerCase());
                 //去除多余列信息
                 tvo.setAllcolumn(getColumn(tvo,"to"));
             }else {
