@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="code:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="springboot-1.0-SNAPSHOT.war">
+    <root id="archive" name="datasyn-1.0.war">
       <element id="artifact" artifact-name="code:war exploded" />
     </root>
   </artifact>

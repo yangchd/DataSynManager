@@ -8,13 +8,13 @@
         公司或者组织的唯一标志，并且配置时生成的路径也是由此生成
         如com.winner.trade，maven会将该项目打成的jar包放本地路径：/com/winner/trade
     -->
-    <groupId>com.ycd</groupId>
+    <groupId>com.platfrom</groupId>
 
     <!-- 本项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 -->
-    <artifactId>springboot</artifactId>
+    <artifactId>datasyn</artifactId>
 
     <!-- 本项目目前所处的版本号 -->
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <!-- 打包的机制，如pom,jar, maven-plugin, ejb, war, ear, rar, par，默认为jar -->
     <!--<packaging>jar</packaging>-->
@@ -103,6 +103,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
